@@ -1,11 +1,21 @@
 
 # Create a function that accepts two numbers and returns the larger.
-import socket
 
-hostname=socket.gethostname()
-ip_address=socket.gethostbyname(hostname)
 
-print(f"hostname is {hostname}")
-print(f"ip_address is {ip_address}")
+a =int(input("enter any number: "))
+b= int(input("enter any number: "))
+
+
+def get_larger_number(a,b):
+    if a>b:
+        return a
+    else:
+        return b
+    
+result=get_larger_number(a,b)
+print(f"The largest number is: {result}")
+
+
+
 
 
