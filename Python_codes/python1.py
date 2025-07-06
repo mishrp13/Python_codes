@@ -25,3 +25,11 @@ for filename in os.listdir(directory):
 
 # ### ```python
 # directory = r"C:\python_for_devops\python-for-devops\Day-03"
+
+
+#Git commands
+#git init
+#git remote add origin "url"
+# git add .
+# git commit -m ""
+
