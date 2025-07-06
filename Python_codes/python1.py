@@ -7,11 +7,18 @@ import os
 
 directory = r"C:\python_for_devops\python-for-devops\Day-04"
 
-for filename in os.listdir(directory):
-    file_path=os.path.join(directory, filename)
-    if os.path.isfile(file_path):
-        print(filename) 
+# for filename in os.listdir(directory):
+#     file_path=os.path.join(directory, filename)
+#     if os.path.isfile(file_path):
+#         print(filename) 
 
+
+for filename in os.listdir(directory):
+    file_path=os.path.join(directory,filename)
+    if os.path.isfile(file_path):
+        print(filename)
+
+        
 # #### ✅ What it does:
 # - This imports the **`os` module**, which provides a way to interact with the operating system.
 
