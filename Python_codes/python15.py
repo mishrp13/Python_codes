@@ -20,15 +20,16 @@
 import os
 import time
 
-def delete_old_files(folder,days):
-    cutoff=time.time()- days*86400
 
+def delete_file(folder,days):
+    cutoff=time.time()- days*86400
 
     for file in os.listdir(folder):
         path=os.path.join(folder,file)
         if os.path.isfile(path) and os.path.getmtime(path) < cutoff:
             os.remove(path)
-            print(f"Deleted : {path}")
+            print(f" Deleted: {path}")
 
-delete_old_files("---",7)
+
+delete_file("-----",7)
 
