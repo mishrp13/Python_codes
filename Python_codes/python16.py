@@ -26,26 +26,26 @@
 
 def extract_errors(log_file,output_file=None):
     try:
-        with open (log_file,'r') as file:
+        with open(log_file,'r') as file:
             lines=file.readlines()
-        
+
         error_lines=[line for line in lines if "error" in line.lower()]
 
         if output_file:
             with open(output_file,'w') as out:
                 out.writelines(error_lines)
-                print(f"found {len(error_lines)} . saved to {output_file}")
+                print(f" Found {len(error_lines)} . saved to '{output_file}' ")
 
         else:
-
-            print("Error lines")
-            for line in line:
+            print("Error_lines")
+            for line in error_lines:
                 print(line,end=" ")
-    
+
+
     except FileNotFoundError:
-        print(f"Log_file '{log_file}'  not found ")
+
+        print(f"{output_file}  not found")
 
 
 extract_errors('application.log','error_only.log')
-
 
