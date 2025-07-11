@@ -10,8 +10,16 @@ data = {
     "skills": ["Python", "DevOps", "Docker"]
 }
 
-# Write to a file
-with open("data.json", "w") as file:
-    json.dump(data, file, indent=4)
+# # Write to a file
+# with open("data.json", "w") as file:
+#     json.dump(data, file, indent=4)
 
-print("Data written to data.json")
+# print("Data written to data.json")
+
+
+
+with open ("datas.json",'w') as file:
+    json.dump(data,file,indent=4)
+
+print("Data writtent to data.json")
+
