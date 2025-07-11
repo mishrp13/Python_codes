@@ -17,8 +17,9 @@
 import shutil
 
 folder_to_zip="my_folder"
+
 output_zip="my_folder_backup"
 
-shutil.make_archive(output_zip,'zip',folder_to_zip)
 
-print(f" '{folder_to_zip}' has been zipped as '{output_zip}'")
+shutil.make_archive(output_zip,'zip',folder_to_zip)
+print(f"'{folder_to_zip}' has been zipped to '{output_zip}'")
