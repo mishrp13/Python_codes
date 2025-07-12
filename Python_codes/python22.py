@@ -4,7 +4,7 @@
 import os
 
 def search_file(filename, search_path):
-    for root, dirs, files in os.walk(search_path):
+    for root, dir, files in os.walk(search_path):
         if filename in files:
             full_path = os.path.join(root, filename)
             print(f"Found: {full_path}")
@@ -13,4 +13,4 @@ def search_file(filename, search_path):
     return None
 
 # Example usage
-search_file("example.txt", "C:/Users/praba/Documents")
+search_file("example.txt", r"C:\Users\praba\OneDrive\Documents\ras")
