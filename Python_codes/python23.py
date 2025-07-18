@@ -8,7 +8,7 @@ log_url = 'https://raw.githubusercontent.com/elastic/examples/master/Common%20Da
 try:
     # Fetch the log content
     response = requests.get(log_url)
-    response.raise_for_status()
+    #response.raise_for_status()
     logs = response.text.splitlines()
 
     print("Log lines with 404 Not Found:\n")
