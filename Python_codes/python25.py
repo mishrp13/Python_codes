@@ -1,5 +1,5 @@
 
-## #Count word frequency in a file.
+## #Count word frequency in a file..
 
 
 def count_word_frequency(file_path):
