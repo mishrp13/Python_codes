@@ -34,7 +34,22 @@ except the logs file)
 
   4. cat /proc/cpuinfo > cpuinfo.txt (copying the result in jenkins workspace) 
 
+  5. in first build job (we have clone the source code , check out the source code ..build it with maven)
+   **/*.war -> this means go recursively and find the war file and archive it.
+   we generally save our vprofile.war file in nexus repo.
+
+   Task 👍:
+       Install jdk 11
+       add that jdk11 path in jenkins
+       run that and make it successfull.
+
+       --sol add the path in Jenkins; /usr/lib/jvm/java-11-openjdk-amd64
+
   
+
+
+
+
 
 
 
