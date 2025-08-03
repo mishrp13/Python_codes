@@ -26,6 +26,19 @@ except the logs file)
    1. freestyle jobs.
    2. Pipeline as a code.
 
+3. Installing : apt install openjdk-17-jdk -y
+   Path:   ls /usr/lib/jvm
+   copy this in Java home : /usr/lib/jvm/java-17-openjdk-amd64 (in jenkins tools frontend)
+   For above one we have installed openjdk-17 in our instance and then mentioned the path in jenkins
+   frontend
+
+  4. cat /proc/cpuinfo > cpuinfo.txt (copying the result in jenkins workspace) 
+
+  
+
+
+
+
 
 
 
