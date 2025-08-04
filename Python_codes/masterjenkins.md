@@ -57,7 +57,7 @@ except the logs file)
         uncheck the parametrized.
      3. now next step would be to push this artifact in s3 bucket or Nexus that will do later.
 
-   7. 
+   7. if we face any disk space issue go to the instance and there in storage section increase the size and check with df -h.
 
 
   
