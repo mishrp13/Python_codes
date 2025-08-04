@@ -44,6 +44,7 @@ except the logs file)
        run that and make it successfull.
 
        --sol add the path in Jenkins; /usr/lib/jvm/java-11-openjdk-amd64
+       --will have to start from 159th lecture.
 
   
 
