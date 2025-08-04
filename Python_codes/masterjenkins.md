@@ -44,7 +44,21 @@ except the logs file)
        run that and make it successfull.
 
        --sol add the path in Jenkins; /usr/lib/jvm/java-11-openjdk-amd64
-       --will have to start from 159th lecture.
+      
+   6. now will see versioning of the artifact:
+     mkdir -p versions
+     cp target/vprofile-2.war versions/vpro$BUILD_ID.war
+     if we want which version it is then we have to check parametized and select string parameter
+     cp target/vprofile-2.war versions/vpro$VERSION.war
+     1. now will get the option build with parameter
+        here we can provide semantic version 2.3.6 and it will be like that vpro2.3.6.war
+     2. now we are enabling the time stamp with our for that we have to install build time stamp
+        plugin from jenkins plugin. after doing that we have to manage jenkins and there we have to select time pattern. ddmmyy_HHmm. (cp target/vprofile-v2.war versions/vpro$BUILD_TIMESTAMP.war)
+        uncheck the parametrized.
+     3. now next step would be to push this artifact in s3 bucket or Nexus that will do later.
+
+   7. 
+
 
   
 
