@@ -212,6 +212,29 @@ pipeline {
    7. write pipeline script
    8. set Notification
 
+   8. Now we have to Launch Nexus server
+      os: Amazon Linuz 2023 AMI
+      Mostly nexus and Sonar qube will be down because of budget issue
+      security Group: 22 from my IP
+                      8081(nexus frontend port) from my IP
+                      8081 from jenkins security group(because we will be uploading our artifact from jenkins so jenkins needs to connect)
+                      ls /opt/nexus
+                      ec2-user@ip_address
+                      take public ip:8081 and run on browser
+
+     ----copy nexus file from hkh code to instance of nexus
+
+
+     9. Sonar-Server:
+        ubuntu
+        22 from my ip
+        80 from my IP
+        80 from jenkins-sg 
+        allow sonarqube-sg in jenkins on port 8080
+        have to start from 164
+                              
+
+
 
    
   
