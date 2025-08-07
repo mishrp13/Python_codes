@@ -231,7 +231,17 @@ pipeline {
         80 from my IP
         80 from jenkins-sg 
         allow sonarqube-sg in jenkins on port 8080
-        have to start from 164
+       
+
+
+    10. Plugins to install in jenkins
+        Nexus
+        Sonarqube
+        Git
+        Pipeline maven Integration Plugin
+        BuildTimeStamp
+
+        
                               
 
 
