@@ -246,6 +246,8 @@ pipeline {
          install the sonar server details in jenkins
          add secret token from sonar to jenkins
          in sonar server security group allow traffic from jenkins server
+         added private ip of sonarserver to jenkins..coz jenkins,sonar and Nexus
+         are in the same vpc(virtual private cloud)
 
 
       
