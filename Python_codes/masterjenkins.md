@@ -240,7 +240,15 @@ pipeline {
         Git
         Pipeline maven Integration Plugin
         BuildTimeStamp
-        start with 166/
+        
+
+     11. install sonar scanner plugin in jenkins
+         install the sonar server details in jenkins
+         add secret token from sonar to jenkins
+         in sonar server security group allow traffic from jenkins server
+
+
+      
 
 
                               
