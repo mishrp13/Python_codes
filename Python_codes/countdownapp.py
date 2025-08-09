@@ -18,7 +18,11 @@ today_date=datetime.datetime.today()
 
 # calculate how many days from now till deadline
 
-print(deadline_date-today_date)
+#print(deadline_date-today_date)
+
+time_till=deadline_date-today_date
+
+print(f"Dear user ! Time remaining for your goal : {goal} is {time_till.days}")
 
 
 
