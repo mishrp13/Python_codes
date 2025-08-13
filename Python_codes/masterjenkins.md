@@ -248,7 +248,16 @@ pipeline {
          in sonar server security group allow traffic from jenkins server
          added private ip of sonarserver to jenkins..coz jenkins,sonar and Nexus
          are in the same vpc(virtual private cloud)
-         start with 168g
+         
+      12. Now we have to set the nexus repo coz once build is 
+          done we need to put our artifact in nexus repo.
+          1. For that we have to configure credentials for
+          Nexus in Jenkin and there we have to provide username 
+          and password for nexus repo.
+
+      
+
+          
 
 
       
