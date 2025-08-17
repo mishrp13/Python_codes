@@ -109,6 +109,8 @@ root@ip-172-31-24-102:~# docker run -d \
 > -e ME_CONFIG_MONGODB_SERVER=mongodb \
 >mongo-express
 
+docker logs mongo-express
+
 
 Now you can login using <public_ip >8081 and make sure u have
 taken care for security group for port 8081 and give username as admin
@@ -116,8 +118,147 @@ and apssword as pass
 
 --Now have to create the database name user-account from the front end of mongo express
 
+----------Projects 
 
-.
+🟢 Beginner-Level Projects
+
+Static Website (HTML/CSS/JS)
+
+Put a static site in an nginx container.
+
+Push to Docker Hub as yourname/static-website.
+
+Learn: basics of Dockerfile, ports, volumes.
+
+
+
+----------->
+
+
+---general stuff:
+
+#!/bin/bash
+
+# Install docker on Ubuntu
+sudo apt-get update
+   sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release -y
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+   echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install docker-compose
+   sudo apt-get update
+   sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo chmod +x /usr/local/bin/docker-compose
+
+# Add ubuntu user into docker group
+    sudo usermod -a -G docker ubuntu
+
+
+  1. scp -i your-key.pem -r static-website/ ubuntu@<EC2_PUBLIC_IP>:/home/ubuntu/
+
+  scp -i vprobean -r STATIC-WEBSITE/ ubuntu@3.95.63.197:/home/ubuntu
+  --$ scp -i ~/Downloads/vprobeankey.pem -r Static-website/ ubuntu@3.95.63.197:/home/ubuntu
+ ---we are writing -r here becuase we want to copy entire folder!! otherwise it will copy only file like index.html
+
+ cd ~/static-website
+sudo docker build -t my-static-website .
+sudo docker run -d -p 80:80 my-static-website
+
+
+
+
+
+
+Python Flask / Node.js Express App
+
+Build a small REST API (like /hello → returns JSON).
+
+Dockerize it and push.
+
+Learn: base images (python:3.11, node:18), app dependencies, port mapping.
+
+Simple Redis-backed Counter App
+
+Flask/Express frontend → Redis backend → count visits.
+
+Use docker-compose to run 2 containers together.
+
+Push your app image + practice multi-container networking.
+
+🟡 Intermediate-Level Projects
+
+To-Do App (Full Stack)
+
+Backend: Flask/Node/Go.
+
+DB: MongoDB or PostgreSQL.
+
+Frontend: React or Angular.
+
+Use docker-compose for 3 services (frontend, backend, DB).
+
+URL Shortener (like Bitly)
+
+Store short URLs in Redis/Mongo.
+
+Backend API + simple frontend.
+
+Add healthcheck in Dockerfile.
+
+WordPress + MySQL
+
+Run WordPress connected to MySQL via docker-compose.
+
+Publish a tutorial repo + pre-configured Docker Hub image.
+
+🔴 Advanced-Level Projects
+
+Microservices Demo
+
+Create 2–3 services (e.g., user-service, order-service, product-service).
+
+Use RabbitMQ or Kafka for communication.
+
+Deploy all via docker-compose.
+
+CI/CD Pipeline Demo
+
+Create a small project and build Docker image automatically with GitHub Actions.
+
+Push image to Docker Hub on each commit.
+
+Monitoring Stack
+
+Spin up Prometheus + Grafana + Node Exporter with docker-compose.
+
+Publish a tutorial like: “Monitoring your Dockerized App with Grafana”.
+
+Custom Docker Base Image
+
+Create your own lightweight image (e.g., alpine + Python + some pre-installed tools).
+
+Push to Docker Hub as yourname/python-tools.
+
+⚡ Each of these projects teaches a new Docker skill:
+
+Building images (Dockerfile)
+
+Running multiple containers (docker-compose)
+
+Networking between containers
+
+Volumes for persistence
+
+Multi-stage builds (for smaller images)
+
+CI/CD with GitHub + Docker Hub
 
 
 
