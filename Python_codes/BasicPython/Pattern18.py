@@ -6,7 +6,7 @@ class Solution:
                    print(chr(ch),end=" ")
               print()
 
-
+#
 if __name__=="__main__":
      N=5
      sol=Solution()
