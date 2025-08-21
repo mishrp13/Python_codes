@@ -93,7 +93,82 @@ __________________********************__________________________****************
 
 
 
+9. Now we will be doing ss config
+--for that first we create a folder
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /etc/ssl/private/nginx-selfsigned.key \
+-out /etc/ssl/certs/nginx-selfsigned.crt
+
+
+10. For adding ssl in group 
+Create the ssl-cert group:
+
+sudo groupadd ssl-cert
+
+
+Change ownership of the key:
+
+sudo chown root:ssl-cert /etc/ssl/private/nginx-selfsigned.key
+
+
+Set safe permissions:
+
+sudo chmod 640 /etc/ssl/private/nginx-selfsigned.key
+
+
+Add Nginx user (www-data) to the group:
+
+sudo usermod -aG ssl-cert www-data
+
+
+Restart Nginx:
+
+sudo systemctl restart nginx
 
 
 
+11. code 
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    upstream nodejs_cluster {
+        least_conn;
+        server 54.174.222.1:3001;
+        server 54.174.222.1:3002;
+        server 54.174.222.1:3003;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name _;
+
+        ssl_certificate     /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+        location / {
+            proxy_pass http://nodejs_cluster;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
+    server {
+        listen 8080;
+        server_name _;
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+}
+
+                                               
+
+12. For cleanup
+sudo nginx -s stop
 
