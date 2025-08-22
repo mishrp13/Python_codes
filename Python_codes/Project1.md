@@ -52,7 +52,7 @@ vprofile.in
  --if you want to HTTPS connection then you have to take that link and add that in Go Daddy.
  
  
- --Now will do auto scaling.for that we have to cretae image in appserver and Launch template as well. These two things would be required while creating austoscaling group
+ --Now will do auto scaling.for that we have to create image in appserver and Launch template as well. These two things would be required while creating austoscaling group
    and then we have to create the austoscaling group and we are creating the autoscaling to scale in and scale out the the instance in different scenarios such as cpu
    utilization and all. and in autoscaling group we have one instance name vprofile-app that is going to manage autoscaling and at that time we can delete vprofile-app01 if
    we want. we have done infrastucture as a service(means instances). we shifted our application from local to aws.
