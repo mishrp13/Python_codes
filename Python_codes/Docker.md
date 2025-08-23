@@ -118,7 +118,14 @@ and apssword as pass
 
 **************************************************************************************
 Docker from Udemy:    
-1. FOr running container in interactive mode is: docker run -it node
+1. For running container in interactive mode is: docker run -it node
+
+---As we are coping the node app starting foder from local to ec2 instance
+scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/nodejs-app-starting-setup/ ubuntu@54.160.219.240:/home/ubuntu
+
+---> TO create an image based on our docker file: docker build . and after that you write docker run -d -p 3000:80 <container_id>
+
+--->whenever we are making changes in the code and thinking when we restart our container then it will automatically staring reflecting in the client side so the answer is no instead we have to build the image again and then run re-start the container and then changes will start reflecting in client side!
 
 
 
