@@ -128,6 +128,15 @@ scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/nodejs-app-starting-setup/ ubu
 --->whenever we are making changes in the code and thinking when we restart our container then it will automatically staring reflecting in the client side so the answer is no instead we have to build the image again and then run re-start the container and then changes will start reflecting in client side!
 
 
+2. It's not always necessary to to run docker run to start a container whenever we do that , that means we are starting a new container so sometimes it required but not always so..at some point we need to run stopped to containers at that time we have to check stopped containers with the command <docker ps -a> and then run <docker start> and you will see that container will be up and running!!
+
+3. Attached means when we want to run containers and see the ouput continously in the console and the command we can write <docker run -p 3000:80 <image_id> > . In this case it will run in attached mode by default instead if we run the same container in detached mode then <docker run -p 3000:80 -d <image_id>>. if the container is already there and we need to start the stopped container then <docker start <container_id>> and here the container will be running in detached mode by default. if we want to make the running container in attached mode then <docker attacher container_id>. or if you directly want to start the container in attached mode then simply <docker start -a <container_id>>. If you simply want to check the logs then<docker logs <container_id>> or you want continous output in your console then <docker logs -f <container_id>>.
+
+
+
+
+
+
 
 
 
