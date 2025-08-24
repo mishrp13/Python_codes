@@ -121,7 +121,7 @@ Docker from Udemy:
 1. For running container in interactive mode is: docker run -it node
 
 ---As we are coping the node app starting foder from local to ec2 instance
-scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/nodejs-app-starting-setup/ ubuntu@54.160.219.240:/home/ubuntu
+scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/python-app-starting-setup/ ubuntu@13.220.89.181:/home/ubuntu
 
 ---> TO create an image based on our docker file: docker build . and after that you write docker run -d -p 3000:80 <container_id>
 
@@ -132,8 +132,32 @@ scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/nodejs-app-starting-setup/ ubu
 
 3. Attached means when we want to run containers and see the ouput continously in the console and the command we can write <docker run -p 3000:80 <image_id> > . In this case it will run in attached mode by default instead if we run the same container in detached mode then <docker run -p 3000:80 -d <image_id>>. if the container is already there and we need to start the stopped container then <docker start <container_id>> and here the container will be running in detached mode by default. if we want to make the running container in attached mode then <docker attacher container_id>. or if you directly want to start the container in attached mode then simply <docker start -a <container_id>>. If you simply want to check the logs then<docker logs <container_id>> or you want continous output in your console then <docker logs -f <container_id>>.
 
+4.(FROM python
 
+WORKDIR /app
 
+COPY . /app 
+
+CMD ["python", "rng.py"])
+
+---> <docker run -it <container_id>> to run in interactive mode
+---> <docker start -a -i <container_id>> interactive mode!!
+
+5. For removing containers and images:
+<docker stop <container_id>>
+<docker rm <container_id>>
+<docker container prune>--> to remove all conatiner in one go
+<docker rmi <image_id>>
+we can't directly remove image first instead we need to remove the running and stopped containers first!!
+
+6. To remove the container directly whenver we stop it:
+<docker run -p 3000:80 -d --rm <container_id>>
+here if we do <docker stop <container_id>>
+container will remove automatically after stopping it!!
+
+7.For checking Docker images
+<docker image inspect <image_id>>--> you will get to see layers
+--start from lec36
 
 
 
