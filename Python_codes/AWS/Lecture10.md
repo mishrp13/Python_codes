@@ -11,7 +11,7 @@ aws --version
 2. AWS CLI acts as a middle-man between user and AWS APPLICATION.
 
 3. To connect aws application and user in aws CLI we have to type below command:
----->aws configure.
+---->aws configure..
 
 
 4. once configuration done:
