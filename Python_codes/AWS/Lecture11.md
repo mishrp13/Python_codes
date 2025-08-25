@@ -69,4 +69,4 @@ we have to create stack .
 
 6. while creating stack, we can enable versioning that will help in drift detection that is one of the features of CFT.
 
-7. once someone made changes with the stack that you created and you have enable the versioning then you will get to know what changes have been made with drift detection.
+7. once someone made changes with the stack that you created and you have enable the versioning then you will get to know what changes have been made with drift detection..
