@@ -121,7 +121,7 @@ Docker from Udemy:
 1. For running container in interactive mode is: docker run -it node
 
 ---As we are coping the node app starting foder from local to ec2 instance
-scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/python-app-starting-setup/ ubuntu@13.220.89.181:/home/ubuntu
+scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/assignment-problem/ ubuntu@54.167.39.132:/home/ubuntu
 
 ---> TO create an image based on our docker file: docker build . and after that you write docker run -d -p 3000:80 <container_id>
 
@@ -168,6 +168,9 @@ container will remove automatically after stopping it!!
 
 <docker build -t goals:latest .>
 then we can run <docker run -p 3000:80 -d --rm --name  goalsapp goals:latest>
+
+10. For Removing image 👍
+docker image prune -a
 
 
 
