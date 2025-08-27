@@ -1,4 +1,4 @@
-## Code commit is same as git hub
+## Code commit is same as github
 
 1. Here we use to update our repo
 
