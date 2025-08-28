@@ -172,7 +172,14 @@ then we can run <docker run -p 3000:80 -d --rm --name  goalsapp goals:latest>
 10. For Removing image 👍
 docker image prune -a
 
-11.
+11. Now once the image is build we need to push it somewhere so the place is Dockerhub Repo
+--> docker build -t mishrp/node-hello-world .
+--->docker login
+---->docker push mishrp/node-hello-world
+----> or if you want to use the image that is already in your local then 
+<docker tag node_demo:latest mishrp/node-hello-world .> then do the docker push!!
+
+12. To delete all local image:<docker image prune -a>
 
 
 
