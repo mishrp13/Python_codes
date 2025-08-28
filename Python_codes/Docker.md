@@ -172,6 +172,7 @@ then we can run <docker run -p 3000:80 -d --rm --name  goalsapp goals:latest>
 10. For Removing image 👍
 docker image prune -a
 
+11.
 
 
 
