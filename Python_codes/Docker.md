@@ -181,6 +181,16 @@ docker image prune -a
 
 12. To delete all local image:<docker image prune -a>
 
+13. Now copying file from local to ec2 to understand the concept of volumes in docker.
+There are mainly two types of data i.e temporary and permanent!
+scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/data-volumes-01-starting-setup/ ubuntu@54.147.145.168:/home/ubuntu
+
+14. For building the image with tag: <docker build -t feedback-node .>
+
+15. The real problem with the containers is the storing the data inside that let's say
+we created container and we are storing files in that for some users and once we stop container and deleted it then all the data will be lost because container itself got deleted on the other hand if we stop the container and then start it again the data will still be there because container never got deleted. But we won't be always working with same container instead we will be creating the container with the latest images and we don't want previous containers or we can say we will be deleting older containers but we want the data of the users. so that's the problem and we will be solving that with volumes.
+
+
 
 
 
