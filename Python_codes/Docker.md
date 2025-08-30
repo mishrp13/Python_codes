@@ -190,6 +190,13 @@ scp -i ~/Downloads/vprobeankey.pem -r ~/downloads/data-volumes-01-starting-setup
 15. The real problem with the containers is the storing the data inside that let's say
 we created container and we are storing files in that for some users and once we stop container and deleted it then all the data will be lost because container itself got deleted on the other hand if we stop the container and then start it again the data will still be there because container never got deleted. But we won't be always working with same container instead we will be creating the container with the latest images and we don't want previous containers or we can say we will be deleting older containers but we want the data of the users. so that's the problem and we will be solving that with volumes.!
 
+16. Unsuccessful try:
+so we have added volume instruction in our dockerfile with <Volume[/app/feedback]> so that whatever we are saving in our text should get saved in /feedback/title.txt and did some modification in server.js file even after doing that file is not getting saved in feedback folder after stopping and starting new brand container. so we want our data to be saved even container gets stopped or removed and after starting new container old data should be there! will check in next lecture!
+
+17. So there are two types of volumes one is Anonymous volume till now we were trying with anonymous volumes that's why data was not persist. Now we will be trying with named volumes and there the data will get stored in Feedback folder. The basic difference is anonymous volume we were calling via writing inside the dockerfile on the other hand name volume we are calling while running the container.
+For building: <docker build -t feedback:volumes .>
+For Running:<docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback feedback:volumes>
+
 
 
 
