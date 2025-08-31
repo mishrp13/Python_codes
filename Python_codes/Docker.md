@@ -197,6 +197,19 @@ so we have added volume instruction in our dockerfile with <Volume[/app/feedback
 For building: <docker build -t feedback:volumes .>
 For Running:<docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback feedback:volumes>
 
+18. Bind Mount gives us two thing one is to store data and another one is write on data.In this Bind Mount we are getting access of entire folder path and mounting it with the app directory inside the docker file that we have created and if we make changes outside the docker file and inside the folder the changes will reflect without building image again beacuse the app directory in bind mount with path where the code is located.
+<docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v "/home/ubuntu/data-volumes-01-starting-setup/data-volumes-01-starting-setup:/app" feedback:volumes
+>
+--> But with this when we run the container then container will crash immidiately because it won't be able to find express module. as we are having Run NPM install in docker file but this time app directory is bind mount with path where the code is located.
+
+19. To get rid of the above issue we have have to now add anonymous volume to add node modules.
+<docker run -d -p 3000:80  --name feedback-app -v feedback:/app/feedback -v "/home/ubuntu/data-volumes-01-starting-setup/data-volumes-01-starting-setup:/app" -v /app/node_modules feedback:volumes
+>
+--> that will all node modules that is required for this application to run and now what is happening here local folder is overriding the code that is there inside the docker file and that is why we were facing earlier because we were not having node modules in that folder and to git we are explicitly mentioning the annonymous volume to add that node modules << -v /app/node_modules >>.
+--> After this we will get the application working as before and now we will be having one more benifit if we make any changes in index.html file then at that time we don't have to build docker image again instead it will automatically fetch the changes once we save the index.html file. Its happening because the our container's app directoty is mounted with local folder where the code is located!
+
+
+
 
 
 
