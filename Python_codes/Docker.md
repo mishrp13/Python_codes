@@ -205,8 +205,28 @@ For Running:<docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/
 19. To get rid of the above issue we have have to now add anonymous volume to add node modules.
 <docker run -d -p 3000:80  --name feedback-app -v feedback:/app/feedback -v "/home/ubuntu/data-volumes-01-starting-setup/data-volumes-01-starting-setup:/app" -v /app/node_modules feedback:volumes
 >
---> that will all node modules that is required for this application to run and now what is happening here local folder is overriding the code that is there inside the docker file and that is why we were facing earlier because we were not having node modules in that folder and to git we are explicitly mentioning the annonymous volume to add that node modules << -v /app/node_modules >>.
+--> that will all node modules that is required for this application to run and now what is happening here local folder is overriding the code that is there inside the docker file and that is why we were facing earlier because we were not having node modules in that folder and to git rid of that we are explicitly mentioning the annonymous volume to add that node modules << -v /app/node_modules >>.
 --> After this we will get the application working as before and now we will be having one more benifit if we make any changes in index.html file then at that time we don't have to build docker image again instead it will automatically fetch the changes once we save the index.html file. Its happening because the our container's app directoty is mounted with local folder where the code is located!
+
+20. Sometime if we do some consol.log("Hi") in server.js file then it will not start reflecting in logs directly so at that case we have to stop and start container and that is actually not a good startegy. Instead of that we have to wirte some dependencies in pacakage.json such as : 
+
+< 
+"scripts": {
+    "start": "nodemon server.js"
+   },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies":{
+    "nodemon":"2.0.4"
+  }
+>
+
+and in Docker file:
+CMD ["npm", "start"]
+
+-->now if we do changes in server.js with console.log("Hi") it will start showing when we write docker logs<container_id>
 
 
 
