@@ -230,6 +230,35 @@ CMD ["npm", "start"]
 
 
 
+_---------------------------
+## Docker in one shot
+
+1. Login to EC2 instance
+2. update the system with sudo sudo apt-get update
+3. sudo apt-get install docker.io
+4. sudo systemctl status docker
+5. sudo usermod -aG docker $USER
+6. newgrp docker
+7. docker login
+8. docker pull hello-world
+9. docker images
+10. docker run hello-world
+11. docker pull mysql
+12. docker build -t javaapp . (For building image from docker file)
+13. if you want to update the code in src file then you have to run again <docker build -t java-app .> so that images are updated and then run then it will reflect the changes that you have updated in src file
+14. <docker attach <container_id>> will give you real time logs
+15. There are seven types of Docker network:
+  -Host
+  -Bridge(Default)
+  -user Defined Bridge(custom)
+  -None
+  -MACVLAN(docker swarm)
+  -IPVLAN
+  -OverLay
+16. If i have to create my network then <docker network create mynetwork -d bridge> d here means driver mode!
+17. For running myql container <docker run -e MYSQL_ROOT_PASSWORD=root mysql>
+
+
 
 
 
