@@ -1,11 +1,7 @@
+file_path='book.txt'
 
-class Fancy_car():
+with open(file_path,'r') as open_file:
+    text=open_file.readlines()
+    print(text)
 
-    wheels = 4
-
-    def drivefast(self):
-        print("driving fast" )
-
-car1 = Fancy_car()
-print(car1.wheels)
-car1.drivefast()
+print(open_file.closed)  # False
