@@ -257,11 +257,292 @@ _---------------------------
   -OverLay
 16. If i have to create my network then <docker network create mynetwork -d bridge> d here means driver mode!
 17. For running myql container <docker run -e MYSQL_ROOT_PASSWORD=root mysql>
+15. <docker attach <container_id>> for checking logs
+16. <docker exec -it <container_id> bash> for going inside running container
+17. <mysql -u root -p > for logging inside sql and then give password
+18. <show databases, create database> and exit to come out of the container
+19. if u want to make some container running always <docker run -itd ubuntu> but if in place of that if you write <docker run ubuntu> then it will stop immediately
+20. docker network ls
+21. so we are having two docker docker container one is flask-app and other one is sql and we have to make a network between them, connection of two-tier application
+22. <docker build -t two-tier-backend .>
+23. As our sql container is running and to connect the sql container with my two_tier_backend app we need to check what are the environment variables are required and that we can check in app.py
+24. <docker run -d -p 5000:5000 -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+>  with this we are connecting our sql database with two tier backend app
+25. After running this our backend will exit immediately beacuse our two tier bacend app is not aware what is sql.
+26. <docker stop fd277795caec && docker rm fd277795caec> stop and remove docker sql container
+27. <docker network create two-tier -d bridge> will create the network and will be giving to both the container.
+28. <docker run -d --name mysql --network two-tier -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql> now ruunig sql container
+29. <docker run -d -p 5000:5000 --network two-tier -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest> now running backedn container with network we created.
+30. <docker network inspect two-tier> with that we can check two container are running inside the network
+31. Now we can check our application is running on port 5000 and write on that.
+32. after that go to sql container and check whatever you have written in frontend app is it stored in sql database if it is stored then its working.
+33. Now if we stop and remove mysql container then the data will also be stopped and that's a big issue to resolve that we use the concept called docker volume and that helps if the sql container even gets stopped and removed still we will be able to persist the data in host.
+34. <docker volume create mysql-data> and <docker inspect mysql-data> where is my volume
+35. <docker run -d --name mysql --network two-tier -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql> this means my containers data will be binded with host volumes data
+36. After that restart our two-tier backned app as well
+37. go to frontend store some values and after that remove sql container after that do docker inspect volume mysql-data and there you will see the path where our volume is bind. sudo that and go inside that path and there you will see the volume will be safe now come  out and run again the sql container with same volume that you created and then restart the two-tier backend app and you will see that our data got persist and we can see the data there.
+38. Above one is named volume and another way also where we can mount our data with the help creating the path and that we are binding with path.
+39. <docker run -d --name mysql --network two-tier -v /home/ubuntu/volumes/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql> and now if you go that path you will see volume will be safe.
+40. install docker compose: <sudo apt-get install docker-compose-v2>
+
+***Docker compose file*******
+
+<version: "3.8"
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devops
+    ports:
+      - "3306:3306"
+    volumes:  
+      - mysql-data:/var/lib/mysql 
+    networks:
+      - two-tier
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  flask:
+    container_name: two-tier-backend
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DB: devops
+    networks: 
+      - two-tier
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql-data:
+
+networks:
+  two-tier:
 
 
+>
+
+41. Now it is very easy to manage docker container after writing docker compose file because now even if you stop the running container with control c if you are not running in detached mode then it becomes really easy you just have to write docker compose up now container will do start,healthcheck and everything and volume will be persisted.
+
+42. <docker system prune> will remove all unused containers,dangling images etc.
+
+43. <docker rmi -f $(docker images -aq)>
+
+44. <docker compose down> it generally stops the container and remove them
+
+45. <docker compose up -d --build>
+
+--start with 2 hour 26 min
+
+46. Now for pushing the image that we build in our local we have to use docker login first
+
+47. after docker we have to create image with docker hub user name<docker image tag two-tier-flask-app-flask:latest mishrp/two-tier-backend:latest> with this new image will be created.
+
+48. Now we can push the image in docker hub <docker push mishrp/two-tier-backend:latest>
+
+49. Now we want docker to build the image from docker hub so we need to make some changes in docker compose file.< flask:
+    image: mishrp/two-tier-backend:latest
+    container_name: two-tier-backend
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DB: devops
+    networks:
+>
+Here we are asking not to build image here instead take it from docker hub.
+
+50. with multi stage docker build we can reduce the size of image from 1 gb to 140 mb.
+
+# Stage 1: Build the dependencies
+FROM python:3.7 AS builder
+
+WORKDIR /app
+
+# Install dependencies into /app/packages
+COPY requirements.txt .
+RUN pip install --prefix=/app/packages -r requirements.txt
+
+# Stage 2: Run the application
+FROM python:3.7-slim
+
+WORKDIR /app
+
+# Copy installed dependencies
+COPY --from=builder /app/packages /usr/local
+
+# Copy app code
+COPY . .
+
+EXPOSE 80
+
+# Run the application
+CMD ["python", "run.py"]
+
+>
+
+51. <nohup docker attach 87ed7e8fce33 & > with this command we can output the logs
 
 
+## Project 1
+1. Django notes app with nginx proxy and with sql database
 
+2. Here we have to make the=ree containers: 1. Nginx 2. Django 3. SQl
+
+<version: "3.8"
+
+services:
+  nginx:
+    build:
+      context: .
+      container_name: "nginx_cont"
+      ports:
+        - "80:80"
+      networks:
+        - notes-app
+      restart: always
+      depends_on:
+        - django
+
+  db:
+    image: mysql
+    container_name: "db_cont"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - notes-app
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost","-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  django:
+    build:
+      context: .
+      container_name: "django_cont"
+      command: sh -c "python manage.py migrate --no-input && gunicorn notesapp.wsgi --bind 0.0.0.0:8000"
+      ports:
+        - "8000:8000" 
+      env_file:
+        - ".env"
+      restart: always
+      depends_on:
+        - db
+      networks:
+        - notes-app
+      healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+        start_period: 30s
+
+ 
+networks:
+  notes-app:
+    
+>
+
+--Have to go through this again
+
+## Project 2
+
+# Expense app forked
+1. For coping Nginix folder recursively from different folder to current folder
+<cp -r ../django-notes-app/nginx .>
+
+<version: "3.8"
+
+services:
+  java_app:
+    build:
+      context: .
+    container_name: "expenseapp"
+    networks:
+      - expenses-app-nw
+    environment:
+      - SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/expenses_tracker?useSSL=false&serverTimezone=UTC"
+      - SPRING_DATASOURCE_USERNAME: "root"
+      - SPRING_DATASOURCE_PASSWORD: "Test@123"
+    depends_on:
+      - mysql_db
+    ports:
+      - "8080:8080"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+   
+
+  mysql_db:
+    image: "mysql:8.0"
+    container_name: "mysql_db"
+    networks:
+      - expenses-app-nw
+    environment:
+      - MYSQL_ROOT_PASSWORD: "Test@123"
+      - MYSQL_DATABASE: "expenses_tracker"
+    restart: always
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost","uroot","-pTest@123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+  nginx:
+    image: "nginx:latest"
+    container_name: "nginx-server"
+    networks:
+      - expenses-app-nw
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - java_app
+    restart: always
+
+networks: 
+  expenses-app-nw:
+    driver: bridge>
 
 
 
