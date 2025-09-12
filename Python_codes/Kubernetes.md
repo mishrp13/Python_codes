@@ -19,6 +19,7 @@
 18. Replica set helps in creting replicas of pods
 19. Staeful sets gives numbering to pods
 20. Deployment will also create replica set but it will also helps in rolling updates.
+--Daemon set will make sure in every worker-nodes,  pod will be running
 21. <kubectl delete -f pod.yml> we are doing this because our deployment.yml is going to create pod
 22. <kubectl apply -f deployment.yml>
 
@@ -29,4 +30,51 @@
 25. <kubectl set image deployment/nginx-deployment -n nginx nginx=nginx:1.27.3> kind of rooling update
 
 26. <kubectl get pods -n nginx -o wide>
---start from 2 hours 8 minutes
+
+27. <kubectl logs pod/demo-job-s8b86 -n nginx>
+
+28. <apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: minute-backup
+  namespace: nginx
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: minute-backup
+        spec:
+          containers:
+          - name: backup-container
+            image: busybox
+            command:
+            - sh
+            - -c
+            - >
+              echo "Backup started";
+              mkdir -p /backup;
+              mkdir -p /demo-data &&
+              cp -r /demo-data /backup &&
+              echo "Backup completed";
+            volumeMounts:
+            - name: demo-data-volume
+              mountPath: /demo-data
+            - name: backup-volume
+              mountPath: /backup
+          restartPolicy: OnFailure
+          volumes:
+          - name: demo-data-volume
+            hostPath:
+              path: /demo-data
+              type: DirectoryOrCreate
+          - name: backup-volume
+            hostPath:
+              path: /backup
+              type: DirectoryOrCreate
+>
+
+29. <kubectl logs pod/minute-backup-29294349-fvbgz -n nginx>
+--start with 2 hours 40 minutes
