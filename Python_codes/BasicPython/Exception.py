@@ -1,7 +1,4 @@
-file_path='book.txt'
+import pathlib
 
-with open(file_path,'r') as open_file:
-    text=open_file.readlines()
-    print(text)
-
-print(open_file.closed)  # False
+path=pathlib.Path('binary.txt')
+print(path.read_bytes())

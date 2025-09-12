@@ -255,7 +255,9 @@ pipeline {
           Nexus in Jenkin and there we have to provide username 
           and password for nexus repo.
 
-      
+    ***************shubham jenkins************
+
+    start from 17 minutes  
 
           
 

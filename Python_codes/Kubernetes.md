@@ -16,4 +16,17 @@
 15. <kubectl apply -f namespace.yml>
 16. <kubectl apply -f pod.yml>
 17. <kubectl exec -it nginx-pod -n  nginx -- bash>
-start from 1 hour 45 minutes
+18. Replica set helps in creting replicas of pods
+19. Staeful sets gives numbering to pods
+20. Deployment will also create replica set but it will also helps in rolling updates.
+21. <kubectl delete -f pod.yml> we are doing this because our deployment.yml is going to create pod
+22. <kubectl apply -f deployment.yml>
+
+23. <kubectl get deployment -n nginx>
+
+24. <kubectl scale deployment/nginx-deployment -n nginx --replicas=5> it will scale up pods to 5.
+
+25. <kubectl set image deployment/nginx-deployment -n nginx nginx=nginx:1.27.3> kind of rooling update
+
+26. <kubectl get pods -n nginx -o wide>
+--start from 2 hours 8 minutes
