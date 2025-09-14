@@ -275,3 +275,69 @@ spec:
 <sudo -E kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 8000:80 --address=0.0.0.0>
 
 51. For django,spring boot we generally use deployment, replicaset,deamonsets and on the other hand for mysql we use stateful sets and these are sequentially numbered even if one pod goes down and the new pod comes up then that pod will be sequentially numbered. In statefulsets we generally have our data persisted.
+
+52. namespace <kind: Namespace
+apiVersion: v1
+metadata:
+  name: mysql
+>
+
+53. service <apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: mysql
+spec:
+  clusterIP: None
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306>
+
+54. statefulset:
+ <apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-statefulset
+  namespace: mysql
+spec:
+  serviceName: mysql-service
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:   # <-- singular, not templates
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: devops
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:   # <-- moved out of template
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+>
+
+55. <kubectl exec -it mysql-statefulset-0 -n mysql -- bash>
+
+56. <kubectl delete pod  mysql-statefulset-0 -n mysql> --> even after you delete it will get automically created with the same name becuase of it stateful set. here it's service,environment variable everything is tightly coupled and that's why it takes everything together.
+
+--start from from 4 hour 10 min
