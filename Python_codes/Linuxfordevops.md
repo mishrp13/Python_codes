@@ -14,8 +14,50 @@
 7. vmstat-> virtual memory
 
 
-*** System Level commands ******
+*** System Level commands ****
 
 8. uname-> tells which platform we are using
 
-9. 
+9. uptime -> users and logged in 
+
+10. who -> gives the list of users who logged in and at what time
+
+11. whoami -> gives the list of current user
+
+12. which python -> gives details where python is installed and debug it.
+
+13. id -> details for users,group.
+
+14. sudo shutdown
+
+15. sudo reboot
+
+16. sudo apt update -> updating the package
+
+17. sudo apt-get install docker.io -> to install docker from internet
+
+18. control+r -> for reverse search and get details and enter
+
+19. which dokcer -> u can check where docker is installed
+
+20. sudo apt remove docker.io
+
+21. yum-> works on centos, apt-> works on ubuntu for package manager, dnf -> fedora, pacman -> arch linux, portage-> gentoo as Application package manager.
+
+
+*** User and group Mangement ****
+
+22. sudo useradd -m jethalal -> adding jethalal in home where ubuntu is there. check in home you will find both ubuntu and jethalal
+
+23. sudo passwd jethalal -> changes the passwd
+
+24. su jethalal -> switch user
+
+25. cat /etc/passwd -> gives the details what all the users got added
+
+26. sudo userdel jethalal
+
+--start from 2 hour 35 min
+
+
+
