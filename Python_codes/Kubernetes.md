@@ -340,4 +340,52 @@ spec:
 
 56. <kubectl delete pod  mysql-statefulset-0 -n mysql> --> even after you delete it will get automically created with the same name becuase of it stateful set. here it's service,environment variable everything is tightly coupled and that's why it takes everything together.
 
---start from from 4 hour 10 min
+57. we create configmap to put the enviroment variable directly in configmap.yml file instead of putting in staefulset.yml and give refrence in statefulset file.
+--config file
+<kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mysql-config-map
+  namespace: mysql
+data:
+  MYSQL_DATABASE: devops
+>
+
+--changes in statefulset file
+<env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config-map
+              key: MYSQL_DATABASE
+  >
+
+58. we do secret config in secrets.yml file and we do it with base64 encoded , it makes the values in binary form
+
+***Secrets***
+
+secret.yml
+<apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: mysql
+data:
+  MYSQL_ROOT_PASSWORD: cm9vdAo=   # 64base encoded echo "root" | base64
+>
+
+changes in statefulset.yml
+<env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+>
+
+
+--start from 4 hours 30 minutes --topic -> limit
+
+59.
