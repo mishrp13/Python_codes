@@ -386,6 +386,124 @@ changes in statefulset.yml
 >
 
 
---start from 4 hours 30 minutes --topic -> limit
 
-59.
+
+59. Limit sets how much you require (in mbs or gbs) for Pods.(resources-> request,limit)
+
+60. Probes -> Liveness probe, rediness probe, startup probe
+Liveness probe -> if your pod is live then it can be tested in liveness probe
+
+readiness probe -> if your pod is ready then readiness probe gets ticked
+
+Startup probe -> if your pod is started then startup probe gets ticked
+
+<kubectl describe pod notes-app-deployment-867b6cf88-htlst -n nginx>
+
+61. Taint and Tolerance:
+taint is the way to tell kubernets cluster to not to schedules pods in the given node.
+tolerance is the way to tell you can run pod on that node.
+<kubectl taint node tws-cluster-worker prod=true:Noschedule>
+
+--if you untainted u can connect
+
+<tolerations:
+    -key: "prod"
+     operator: "Equal"
+     value: "true"
+     effect: "Noschedule"
+     >
+
+     now it will run becuase we put tolleration
+
+62. Autoscaling:
+
+HPA(Horizentol Pod Autoscaling)-> increases the replicas, happens with application such as django application.
+VPA(Vertical Pod Autoscaling)-> increases the size of application and it increase it's limit, generally happens with stateful sets application such as MySql.
+KEDA(Kubernetes Event Driven Autoscaling):it decides based on the metrics which one to choose between HPA and VPA.
+
+63. creating apache for HPA:
+
+<kubectl scale deployment apache-deployment-n apache --replicas=3>
+
+---apache namespace:
+<kind: Namespace
+apiVersion: v1
+metadata:
+  name: apache
+  
+  >
+
+--apache deployment ->
+<kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: apache-deployment
+  namespace: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+        - name: apache
+          image: httpd:2.4
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+
+>
+
+---services:
+<kind: Service
+apiVersion: v1
+metadata:
+  name: apache-service
+  namespace: apache
+spec:
+  selector:
+    app: apache
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+>
+
+----HPA:
+<apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache-hpa
+  namespace: apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: apache-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+>
+
+--start from 5:35
+
+
+
