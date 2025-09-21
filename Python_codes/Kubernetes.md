@@ -503,7 +503,115 @@ spec:
         averageUtilization: 50
 >
 
---start from 5:35
+64. creating hpa for notes-app
+
+Deployment.yml
+<apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app-deployment
+  labels:
+    app: notes-app
+  namespace: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes-app
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+      - name: notes-app
+        image: mishrp/notes-app-k8s
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi   # fixed
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+
+>
+
+service.yml
+
+<kind: Service
+apiVersion: v1
+metadata:
+  name: notes-app-service
+  namespace: nginx
+spec:
+  selector:
+    app: notes-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+
+>
+
+hpa.yml
+<apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: notes-app-hpa        # renamed for clarity
+  namespace: nginx
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: notes-app-deployment   # must match your deployment name
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 5
+
+>
+
+commands:
+<kubectl apply -f deployment.yml>
+<kubectl apply -f service.yml>
+<kubectl apply -f hpa.yml>
+<kubectl get pods -n nginx>
+<kubectl get hpa -n nginx>
+<kubectl delelete hpa notes-app-hpa -n nginx>
+<kubectl delete ns nginx>
+
+
+65. 5 hours 55 minutes take a note for VPA later
+--here in VPA size of memory will get increased not replicas
+for hiiting load generator in VPA
+<kubectl run -i -tty load-generator --image=busybox -n apache /bin/sh>
+<while true; do wget -q -o- https://apache-service.apache.svc.cluster.local; done>
+<kubectl top pod -n apache>
+
+66. RBAC (Role based access control)
+1. service based role, service based role binding
+2. cluster based role, cluster based role binding
+
+<kubectl auth whoami>
+<kubectl can-i get pods -n apache>
+
+
+--start from 6 hour 19 min
 
 
 
