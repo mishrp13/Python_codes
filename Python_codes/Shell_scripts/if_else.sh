@@ -11,6 +11,7 @@ if [[ $bandi == "daya bhabhi" ]];
 then 
     echo "jetha is loyal"
 elif [[ $pyar -ge 100 ]];
+
 then
     echo "jetha is loyal"
 else
