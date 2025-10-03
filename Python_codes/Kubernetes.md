@@ -610,8 +610,52 @@ for hiiting load generator in VPA
 <kubectl auth whoami>
 <kubectl can-i get pods -n apache>
 
+<kubectl auth can-i get pods --as=apache-user -n apache>
+service level-
+**role.yml
 
---start from 6 hour 19 min
+<kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: apache-manager
+  namespace: apache
+rules:
+- apiGroups: ["*"] #["","apps","rbaci.authorization.k8s.io","batch"]
+  resources: ["*"] #["deployment","service","pod"]
+  verbs:   ["*"]  #["get","list","create","delete","update","patch","apply"]
+>
+
+** service-account.yml
+<kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: apache-user
+  namespace: apache
+>
+
+** rolebinding.yml
+<kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: apache-manager-rolebinding
+  namespace: apache
+
+subjects:
+ - kind: User
+   name: apache-user
+   apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: apache-manager
+  apiGroup: rbac.authorization.k8s.io
+>
+
+
+67. cluster level: Roles
+--start from 7:00
+
+
+
 
 
 

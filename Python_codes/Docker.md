@@ -165,7 +165,7 @@ container will remove automatically after stopping it!!
 <docker run -p 3000:80 -d --rm --name golgappa <container_id>>
 
 9. For using name:tag while building the image
-
+--
 <docker build -t goals:latest .>
 then we can run <docker run -p 3000:80 -d --rm --name  goalsapp goals:latest>
 
