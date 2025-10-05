@@ -1,11 +1,15 @@
-print("how many cats do you have")
-numcats=input()
+class Solution:
+    def Pattern2(self,n):
+        for i in range(n):
+            for j in range(i+1):
+                print("*", end=" ")
+            print()
 
-try:
-    if int(numcats) >=4:
-        print("You have too many cats")
-    else:
-        print("You don't have too many cats")
-except ValueError:
-    print("you did not enter a number")
 
+    def main(self):
+        sol=Solution()
+        N=5
+        ans=sol.Pattern2(N)
+
+if __name__=="__main__":
+    Solution().main()
