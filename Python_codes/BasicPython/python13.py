@@ -19,4 +19,3 @@ def convert_to_uppercase(input_file,output_file):
 
 convert_to_uppercase('prabal.txt','output.txt')
 
-

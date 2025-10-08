@@ -652,7 +652,86 @@ roleRef:
 
 
 67. cluster level: Roles
---start from 7:00
+
+68. Custom resource Definition(creating our own resource)
+devops-crd.yml
+
+
+<apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: devopsbatches.prabal.com
+spec:
+  group: prabal.com
+  names:
+    plural: devopsbatches
+    singular: devopsbatch
+    kind: DevOpsbatch
+    shortNames:
+      - junoon
+      - batch
+      - tws
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "Name of the DevOps batch"
+                duration:
+                  type: string
+                  description: "Duration of the DevOps batch"
+                mode:
+                  type: string
+                  description: "Mode of the DevOps batch (online/offline)"
+                platform:
+                  type: string
+                  description: "Platform used in the DevOps batch"
+>
+
+devops-cr.yml
+
+<apiVersion: prabal.com/v1
+kind: DevOpsbatch
+metadata:
+  name: junoon-batch-9
+spec:
+  name: "DevOps - Zero to Hero Junoon Batch 9"
+  duration: "6 months"
+  platform: "Udemy"
+  mode: "online">
+
+
+  69. start from 7:40
+  Helm:
+  install helm from website
+  <helm create apache-helm>
+
+  <helm install dev-apache apache-helm -n dev-apache --create-namespace
+  >
+
+<helm install prd-apache apache-helm -n prd-apache --create-namespace>
+
+<kubectl get pods -n prd-apche>
+<kubectl get pods -n dev-apche>
+
+<kubectl port forward svc/dev-node-js-app 8000:8000 -n dev-node --address=0.0.0.0>
+
+70. Init Container VS Sidecar container
+<go through this again>
+
+--start from 8:36
+
+
+
 
 
 

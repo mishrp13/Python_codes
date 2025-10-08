@@ -55,3 +55,49 @@ curl -LO "https://dl.k8s.io/release/v1.31.1/bin/linux/amd64/kubectl.sha256"
 
 <./gradlew installDist --no-daemon -Dorg.gradle.java.home=/usr/lib/jvm/java-21-openjdk-amd64
 >
+
+4. 
+Vpc modules:
+
+
+private subnet-> Nat gateway
+public subnet -> IGW
+Route table-> to connect private subnet and Nat gateway | to connect public subnet and IGW
+
+--vpc Resources
+so we will be creating Terraform resource for:
+1. private subnet
+2. Nat gateway
+3. public subnet
+4. Internet Gateway
+5. Route Table
+
+
+
+5. 
+
+EKS modules:
+
+iam roles -> cluster(Master Plane) -> policy
+iam roles -> node(Data Plane) -> policy
+
+Resources:
+
+1. iam role cluster
+2. policy
+3. eks cluster
+
+4. iam role node
+5. policy
+6. Node Group--> attach this to  EKS cluster
+
+
+
+
+
+
+
+
+
+
+
